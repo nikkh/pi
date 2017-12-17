@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-
+import colorsys
 from azure.servicebus import ServiceBusService
 from azure.servicebus import Message
 from blinkt import set_pixel, set_brightness, show, clear
