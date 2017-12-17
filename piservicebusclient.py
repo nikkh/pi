@@ -13,7 +13,7 @@ def snake( r, g, b ):
     "This creates a snake effect on the blinkt using the specified colour"
     clear()
     for count in range(1,20):
-        print count
+        print(count)
         for i in range(8):
             clear()
             set_pixel(i, r, g, b)
@@ -37,11 +37,11 @@ while True:
     print ("message: ", newmsg.body, "\n")
     if newmsg.body is not None:
         p = Payload(newmsg.body)
-        if p.device: print p.device
-        if p.effect: print p.effect
-        if p.led: print p.led
-        if p.colour: print p.colour
-        if p.state: print p.state
+        if p.device: print(p.device)
+        if p.effect: print(p.effect)
+        if p.led: print(p.led)
+        if p.colour: print(p.colour)
+        if p.state: print(p.state)
         if p.effect == 'snake':
             if p.colour == 'red':
                 snake(255,0,0)
