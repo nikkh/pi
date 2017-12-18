@@ -28,7 +28,7 @@ def rainbow():
 	hue = 0
 	set_brightness(0.1)
 
-	for count in range(1,20):
+	for count in range(1,160):
 		print(count)
 		hue = int(time.time() * 100) % 360
 		for x in range(8):
@@ -69,5 +69,6 @@ while True:
                 snake(0,0,255)
         if p.effect == 'rainbow':
             rainbow()
-    time.sleep(1)
+	clear()    
+	time.sleep(1)
 
