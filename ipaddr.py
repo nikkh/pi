@@ -12,7 +12,7 @@ class InitMessage(object):
 print(os.getcwd())
 
 service_namespace='nixpitest'
-with open('keys/keys.txt', 'r') as myfile:
+with open('private/keys.txt', 'r') as myfile:
     keyval=myfile.read().replace('\n', '')
 key_name = 'RootManageSharedAccessKey' # SharedAccessKeyName from Azure portal
 key_value = keyval # SharedAccessKey from Azure portal

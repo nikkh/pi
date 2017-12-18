@@ -44,7 +44,10 @@ set_brightness(0.1)
 print('Nicks Raspberry Pi Python Service Bus Client version 0.1')
 service_namespace='nixpitest'
 key_name = 'RootManageSharedAccessKey' # SharedAccessKeyName from Azure portal
-key_value = 'WaatrrP3nw+TMu2Qkw6vQQZrNca4ZS6kTOpOaxQt4Cc=' # SharedAccessKey from Azure portal
+with open('private/keys.txt', 'r') as myfile:
+    keyval=myfile.read().replace('\n', '')
+
+key_value = keyval # SharedAccessKey from Azure portal
 sbs = ServiceBusService(service_namespace,
                         shared_access_key_name=key_name,
                         shared_access_key_value=key_value)
