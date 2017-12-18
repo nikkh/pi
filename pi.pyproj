@@ -23,8 +23,5 @@
     <Compile Include="ipaddr.py" />
     <Compile Include="piservicebusclient.py" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="keys.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>
