@@ -104,3 +104,7 @@ ENV/
 /private/keys.txt
 /PyPlay/application.identity
 /NixPiImageWeb
+/PiUi/bin
+/PiUi/obj/Debug
+/PyPlay/.vs/PyPlay/v15
+/PyPlay/packages
