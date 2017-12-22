@@ -102,3 +102,4 @@ ENV/
 # mypy
 .mypy_cache/
 /private/keys.txt
+/PyPlay/application.identity
