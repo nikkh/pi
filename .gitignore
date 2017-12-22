@@ -103,3 +103,4 @@ ENV/
 .mypy_cache/
 /private/keys.txt
 /PyPlay/application.identity
+/NixPiImageWeb

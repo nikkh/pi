@@ -55,8 +55,9 @@ sbs.create_queue('testpythonqueue1')
 while True:
     newmsg = None
     newmsg = sbs.receive_queue_message('testpythonqueue1', peek_lock=False)
-    print ("message: ", newmsg.body, "\n")
+    
     if newmsg.body is not None:
+        print ("message: ", newmsg.body, "\n")
         p = Payload(newmsg.body)
         if p.device: print(p.device)
         if p.effect: print(p.effect)
@@ -72,6 +73,6 @@ while True:
                 snake(0,0,255)
         if p.effect == 'rainbow':
             rainbow()
-	clear()    
-	time.sleep(1)
+    clear()    
+    time.sleep(1)
 

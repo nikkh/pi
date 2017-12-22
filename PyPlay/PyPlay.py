@@ -5,6 +5,7 @@ from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.keyvault import KeyVaultManagementClient
 from azure.keyvault import KeyVaultClient, KeyVaultAuthentication
 import json
+import uuid
 
 
 def auth_callack(server, resource, scope):
@@ -26,6 +27,8 @@ with open('application.identity', 'r') as myfile:
     secretdata=myfile.read().replace('\n', '')
 
 config = ConfigurationData(secretdata)
+print("Raspberry Pi still image uploader v0.1")
+print("Running on", config.DeviceName)
 print ("Application identity is", config.ApplicationId)
 
 vault_url = "https://xekinadev.vault.azure.net/"
@@ -36,19 +39,19 @@ client = KeyVaultClient(KeyVaultAuthentication(auth_callack))
 piStorageAccountName = client.get_secret(vault_url, "piStorageAccountName", secret_version)
 piStorageAccountSecretKey = client.get_secret(vault_url, "piStorageAccountSecretKey", secret_version)
 piStorageAccountCameraContainerName = client.get_secret(vault_url, "piStorageAccountCameraContainerName", secret_version)
-piStorageAccountPhotoBlobName = client.get_secret(vault_url, "piStorageAccountPhotoBlobName", secret_version)
+piCameraStillImageName = client.get_secret(vault_url, "piCameraStillImageName", secret_version)
 piStorageAccountCameraStillImagesQueueName = client.get_secret(vault_url, "piStorageAccountCameraStillImagesQueueName", secret_version)
 
 block_blob_service = BlockBlobService(account_name=piStorageAccountName.value, account_key=piStorageAccountSecretKey.value)
 block_blob_service.create_container(piStorageAccountCameraContainerName.value)
-
+blob_name = str(uuid.uuid4()) + ".jpg"
 block_blob_service.create_blob_from_path(
     piStorageAccountCameraContainerName.value,
-    piStorageAccountPhotoBlobName.value,
-    piStorageAccountPhotoBlobName.value,
+    blob_name,
+    piCameraStillImageName.value,
     content_settings=ContentSettings(content_type='image/png')
             )
-blob_source_url = block_blob_service.make_blob_url(piStorageAccountCameraContainerName.value, piStorageAccountPhotoBlobName.value)
+blob_source_url = block_blob_service.make_blob_url(piStorageAccountCameraContainerName.value, blob_name)
 
 queue_service = QueueService(account_name=piStorageAccountName.value, account_key=piStorageAccountSecretKey.value)
 queue_service.create_queue(piStorageAccountCameraStillImagesQueueName.value)
