@@ -1,4 +1,4 @@
-from azure.storage.queue import QueueService
+from azure.storage.queue import QueueService, QueueMessageFormat
 from azure.storage.blob import BlockBlobService
 from azure.storage.blob import ContentSettings
 from azure.common.credentials import ServicePrincipalCredentials
@@ -6,6 +6,7 @@ from azure.mgmt.keyvault import KeyVaultManagementClient
 from azure.keyvault import KeyVaultClient, KeyVaultAuthentication
 import json
 import uuid
+import base64
 
 
 def auth_callack(server, resource, scope):
@@ -45,6 +46,7 @@ piStorageAccountCameraStillImagesQueueName = client.get_secret(vault_url, "piSto
 block_blob_service = BlockBlobService(account_name=piStorageAccountName.value, account_key=piStorageAccountSecretKey.value)
 block_blob_service.create_container(piStorageAccountCameraContainerName.value)
 blob_name = str(uuid.uuid4()) + ".jpg"
+
 block_blob_service.create_blob_from_path(
     piStorageAccountCameraContainerName.value,
     blob_name,
@@ -54,7 +56,12 @@ block_blob_service.create_blob_from_path(
 blob_source_url = block_blob_service.make_blob_url(piStorageAccountCameraContainerName.value, blob_name)
 
 queue_service = QueueService(account_name=piStorageAccountName.value, account_key=piStorageAccountSecretKey.value)
+queue_service.encode_function = QueueMessageFormat.text_base64encode
+
+        
 queue_service.create_queue(piStorageAccountCameraStillImagesQueueName.value)
-queue_service.put_message(piStorageAccountCameraStillImagesQueueName.value, blob_source_url)
+
+queue_service.put_message(piStorageAccountCameraStillImagesQueueName.value, blob_name)
+
 
 print("Image uploaded:", blob_source_url, "Trigger written to queue:", piStorageAccountCameraStillImagesQueueName.value)
